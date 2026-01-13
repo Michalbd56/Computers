@@ -1,12 +1,14 @@
 ﻿using GameEngine.Services;
 using PacWoman.GameObjects;
 using System;
+using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 
 namespace PacWoman.GameServices
 {
     public class GameManager : Manager
     {
+        public static GameUser Gameuser  = new GameUser();
         private Scene _scene;
         Random r = new Random();
         private DispatcherTimer _RunTimer; // טיימר שבזכותו האובייקטים הנעים ינועו //
@@ -16,13 +18,14 @@ namespace PacWoman.GameServices
             _scene.AddObject(new Pacman(_scene, "Objects/Player/pac gif R.gif", 770, 375, 30));
             CreateMaze();
             CreateCoins();
+            CreateGhots();
         }
 
         private void CreateCoins()
         {
             //שורות אנכיות של מטבעות |||||||||||||||
-            for( int i=90; i<= 500 ; i+= 50)
-            {  
+            for (int i = 90; i <= 500; i += 50)
+            {
                 _scene.AddObject(new Coin("Objects/rewards/coin.png", 40, i, 6));
             }
 
@@ -33,7 +36,7 @@ namespace PacWoman.GameServices
 
             for (int i = 80; i <= 480; i += 47)
             {
-                _scene.AddObject(new Coin("Objects/rewards/coin.png", 890 , i, 6));
+                _scene.AddObject(new Coin("Objects/rewards/coin.png", 890, i, 6));
             }
 
             for (int i = 40; i <= 500; i += 50)
@@ -49,23 +52,23 @@ namespace PacWoman.GameServices
                 _scene.AddObject(new Coin("Objects/rewards/coin.png", i, 40, 6));
             }
 
-           
+
             for (int i = 72; i <= 280; i += 47)
             {
-                _scene.AddObject(new Coin("Objects/rewards/coin.png ", i, 215,6));
+                _scene.AddObject(new Coin("Objects/rewards/coin.png ", i, 215, 6));
             }
 
             for (int i = 72; i <= 280; i += 47)
             {
-                _scene.AddObject(new Coin("Objects/rewards/coin.png", i,300, 6));
+                _scene.AddObject(new Coin("Objects/rewards/coin.png", i, 300, 6));
             }
-            
+
             for (int i = 85; i <= 1160; i += 50)
             {
-                _scene.AddObject(new Coin("Objects/rewards/coin.png", i,490,6 ));
+                _scene.AddObject(new Coin("Objects/rewards/coin.png", i, 490, 6));
             }
 
-            
+
             _scene.AddObject(new strawberry("Objects/rewards/strawberry.png", 25, 380, 35));
 
             for (int i = 940; i <= 1165; i += 47)
@@ -78,10 +81,10 @@ namespace PacWoman.GameServices
                 _scene.AddObject(new Coin("Objects/rewards/coin.png", i, 300, 6));
             }
 
-          
+
             for (int i = 370; i <= 840; i += 50)//-------------- באמצע
             {
-                _scene.AddObject(new Coin ("Objects/rewards/coin.png", i, 155, 6));
+                _scene.AddObject(new Coin("Objects/rewards/coin.png", i, 155, 6));
             }
 
             for (int i = 370; i <= 700; i += 50)
@@ -146,9 +149,17 @@ namespace PacWoman.GameServices
 
             for (int i = 490; i <= 610; i += 100)//בית של רוחות
             {
-                _scene.AddObject(new Block(DirectionBlockType.horizontal, i, 300, 100));
+                _scene.AddObject(new Block(DirectionBlockType.horizontal, i, 305, 100));
             }
+            for (int i = 210; i <= 245; i += 20)//בית של רוחות
+            {
+                _scene.AddObject(new Block(DirectionBlockType.vertical, 682, i, 9));
 
+            }
+            for (int i = 490; i <= 610; i += 100)//בית של רוחות
+            {
+                _scene.AddObject(new Block(DirectionBlockType.horizontal, 600, i, 10));
+            }
 
 
             for (int i = 940; i <= 1040; i += 100) // מלבנים מימין
@@ -262,22 +273,29 @@ namespace PacWoman.GameServices
                 _scene.AddObject(new Block(DirectionBlockType.vertical, 580, j, 5));
             }
 
-
-
-
-
-
-
-
-
-
-
-            
-                
-            
         }
+            private void CreateGhots()
+        {
+            _scene.AddObject(new Ghost(_scene, GhostColor.pink, 630, 270, 30));
+            _scene.AddObject(new Ghost(_scene, GhostColor.red, 590, 270, 33));
+            _scene.AddObject(new Ghost(_scene, GhostColor.orange, 550, 270, 35));
+            _scene.AddObject(new Ghost(_scene, GhostColor.blue, 510, 270, 30));
+
+        }
+
+
+
+
+
+
+
+
+
+
+
     }
-}
+    }
+    
 
 
     

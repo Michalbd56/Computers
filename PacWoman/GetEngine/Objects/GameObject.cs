@@ -54,6 +54,7 @@ namespace GameEngine.Objects
 
         public virtual void Collide(GameObject g)
         {
+            
 
         }
 

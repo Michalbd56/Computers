@@ -120,6 +120,11 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="GameObjects\Block.cs" />
+    <Compile Include="GameObjects\BlueGhost.cs" />
+    <Compile Include="GameObjects\Ghost.cs" />
+    <Compile Include="GameObjects\OrangeGhost.cs" />
+    <Compile Include="GameObjects\PinkGhost.cs" />
+    <Compile Include="GameObjects\RedGhost.cs" />
     <Compile Include="GameObjects\strawberry.cs" />
     <Compile Include="GameObjects\Coin.cs" />
     <Compile Include="GameObjects\Pacman.cs" />
@@ -128,20 +133,25 @@
     <Compile Include="GameServices\GameEvents.cs" />
     <Compile Include="GameServices\GameManager.cs" />
     <Compile Include="GameServices\GameScene.cs" />
+    <Compile Include="Modles\GameLevel.cs" />
+    <Compile Include="Modles\GameUser.cs" />
     <Compile Include="Pages\GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Login.xaml.cs">
-      <DependentUpon>Login.xaml</DependentUpon>
+    <Compile Include="Pages\SignInUpPage.xaml.cs">
+      <DependentUpon>SignInUpPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Shop.xaml.cs">
       <DependentUpon>Shop.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SignUp.xaml.cs">
+      <DependentUpon>SignUp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -207,9 +217,13 @@
     <Content Include="Assets\icon\Wide310x150Logo.scale-400.png" />
     <Content Include="Assets\Objects\block\vertical.png" />
     <Content Include="Assets\Objects\block\horizontal.png" />
+    <Content Include="Assets\Objects\ghosts\blueghost gif.gif" />
+    <Content Include="Assets\Objects\ghosts\ghostvenerable  gif.gif" />
+    <Content Include="Assets\Objects\ghosts\orangeghost gif.gif" />
+    <Content Include="Assets\Objects\ghosts\pinkghost gif.gif" />
+    <Content Include="Assets\Objects\ghosts\redghost gif.gif" />
     <Content Include="Assets\Objects\rewards\apple.png" />
     <Content Include="Assets\Objects\heart.png" />
-    <Content Include="Assets\Objects\player\apple.png" />
     <Content Include="Assets\Objects\player\pac gif D.gif" />
     <Content Include="Assets\Objects\player\pac gif L.gif" />
     <Content Include="Assets\Objects\player\pac gif R.gif" />
@@ -243,7 +257,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\Login.xaml">
+    <Page Include="Pages\SignInUpPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -255,6 +269,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\SignUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
@@ -263,6 +281,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="DateBaseProject\DateBaseProject.csproj">
+      <Project>{354be05a-fcb4-45b4-8b96-10b7237040b5}</Project>
+      <Name>DateBaseProject</Name>
+    </ProjectReference>
     <ProjectReference Include="GetEngine\GameEngine.csproj">
       <Project>{69b89e06-2db4-4902-add2-ff239c1c852c}</Project>
       <Name>GameEngine</Name>
