@@ -1,6 +1,7 @@
 ﻿using GameEngine.Services;
 using PacWoman.GameServices;
 using System;
+using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.UI.Xaml;
@@ -53,7 +54,79 @@ namespace PacWoman.Pages
         {
             _gamemanager = new GameManager(scene);
             Manager.Events.OnUpdateScore += ShowCollectedCoins;
+            GameManager.Events.OnRemoveLifes += RemoveLifes;
         }
+
+        private void RestartGame_Click(object sender, RoutedEventArgs e)
+        {
+            // Hide game over overlay
+            GameOverOverlay.Visibility = Visibility.Collapsed;
+
+            // Reset hearts
+            Heart1.Visibility = Visibility.Visible;
+            Heart2.Visibility = Visibility.Visible;
+            Heart3.Visibility = Visibility.Visible;
+
+            // TODO: reset your game state
+        }
+        //private void RemoveLifes(int hearts)
+        //{
+        //    if(hearts==2)
+        //    {
+        //        Heart3.Visibility=Visibility.Collapsed;
+        //    }
+        //    if (hearts == 1) 
+        //    {
+        //        Heart2.Visibility=Visibility.Collapsed;
+        //    }
+        //    if (hearts == 0)
+        //    {
+        //        Heart1.Visibility=Visibility.Collapsed;
+        //        GameOverOverlay.Visibility = Visibility.Visible;
+
+        //    }
+        //}
+        private async void RemoveLifes(int hearts)
+        {
+            await Dispatcher.RunAsync(
+                Windows.UI.Core.CoreDispatcherPriority.Normal,
+                async () =>
+                {
+                    if (hearts == 2)
+                    {
+                        Heart3.Visibility = Visibility.Collapsed;
+                    }
+                    else if (hearts == 1)
+                    {
+                        Heart2.Visibility = Visibility.Collapsed;
+                    }
+                    else if (hearts == 0)
+                    {
+                        Heart1.Visibility = Visibility.Collapsed;
+
+                        await ShowGameOverDialog();
+                    }
+                });
+        }
+
+        private async Task ShowGameOverDialog()
+        {
+            ContentDialog dialog = new ContentDialog
+            {
+                Title = "המשחק נגמר",
+                Content = "נגמרו לך כל החיים",
+                PrimaryButtonText = "חזרה למסך הבית",
+                CloseButtonText = "סגור"
+            };
+
+            var result = await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                Frame.Navigate(typeof(HomePage));
+            }
+        }
+
 
         private async void ShowCollectedCoins(int coins)
         {

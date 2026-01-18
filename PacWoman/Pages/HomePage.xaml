@@ -79,11 +79,11 @@
             <Image Source="/Assets/Pictures/playBtn.png" />
         </Button>
         <Button x:Name ="store" Grid.Column="9" Grid.ColumnSpan="18" Grid.Row="12" Grid.RowSpan="4" Click="store_Click"  >
-                <Image Source="/Assets/Pictures/storeBtn.png" />
+            <Image Source="/Assets/Pictures/storeBtn.png" />
         </Button>
 
         <Button x:Name ="settings" Grid.Column="9" Grid.ColumnSpan="18" Grid.Row="16" Grid.RowSpan="4" >
-                    <Image Source="/Assets/Pictures/settingBtn.png" />
+            <Image Source="/Assets/Pictures/settingBtn.png" />
 
         </Button>
 

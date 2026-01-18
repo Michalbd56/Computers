@@ -1,6 +1,7 @@
 ﻿using GameEngine.Objects;
 using GameEngine.Services;
 using System;
+using System.Threading.Tasks;
 
 namespace PacWoman.GameObjects
 {
@@ -69,7 +70,7 @@ namespace PacWoman.GameObjects
             }
         }
 
-        public override void Collide(GameObject g)
+        public override async void CollideAsync(GameObject g)
         {
            
             if (g is Block)
@@ -100,6 +101,12 @@ namespace PacWoman.GameObjects
                     _y += 5;
                 }
                 SetSpeedByDirection();
+
+                if (g is Pacman)
+                {
+                    
+                }
+
             }
         }
     }

@@ -2,6 +2,7 @@
 using GameEngine.Services;
 using PacWoman.GameServices;
 using System;
+using System.Threading.Tasks;
 using Windows.System;
 
 namespace PacWoman.GameObjects
@@ -10,6 +11,8 @@ namespace PacWoman.GameObjects
     {
         private Scene _scene;
         private int _collectedCoins = 0;
+        private int _hearts = 3;
+
         public Pacman(Scene scene,string fileName, double x, double y, double size) : base(fileName, x, y, size)
         {
             _scene = scene;
@@ -65,7 +68,7 @@ namespace PacWoman.GameObjects
             SetName("Objects/player/pac gif L.gif");
         }
 
-        public override void Collide(GameObject g)
+        public override async void CollideAsync(GameObject g)
         {
             if (g is Block)
             {
@@ -102,6 +105,15 @@ namespace PacWoman.GameObjects
                 _collectedCoins= _collectedCoins+10;
                 _scene.RemoveObject(g);
                 Manager.Events.OnUpdateScore?.Invoke(_collectedCoins);
+            }
+            if (g is Ghost)
+            {
+                _hearts--;
+                GameManager.Events.OnRemoveLifes?.Invoke(_hearts);
+                _x = 770;
+                _y =  375;
+                _speedX = 0;
+                _speedY = 0;
             }
         }
         // protected void MatchGifToState()

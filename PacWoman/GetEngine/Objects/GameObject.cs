@@ -52,7 +52,7 @@ namespace GameEngine.Objects
             Canvas.SetTop(Image, _y);
         }
 
-        public virtual void Collide(GameObject g)
+        public virtual void CollideAsync(GameObject g)
         {
             
 

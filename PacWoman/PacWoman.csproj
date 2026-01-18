@@ -141,9 +141,6 @@
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\SignInUpPage.xaml.cs">
-      <DependentUpon>SignInUpPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
@@ -233,6 +230,7 @@
     <Content Include="Assets\Objects\rewards\strawberry.png" />
     <Content Include="Assets\Pictures\clean gray background.jpg" />
     <Content Include="Assets\Pictures\homeicon.png" />
+    <Content Include="Assets\Pictures\loginBtn.png" />
     <Content Include="Assets\Pictures\logingif.gif" />
     <Content Include="Assets\Pictures\musicabtn.png" />
     <Content Include="Assets\Pictures\NameTitle.png" />
@@ -256,10 +254,6 @@
     <Page Include="Pages\HomePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\SignInUpPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Settings.xaml">
       <Generator>MSBuild:Compile</Generator>

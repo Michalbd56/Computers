@@ -81,13 +81,13 @@
         <Grid.Background>
             <ImageBrush ImageSource="/Assets/Backgrounds/SpaceStarsHomepage.jpeg"></ImageBrush>
         </Grid.Background>
-        <TextBlock Text="Sing Up" 
-              HorizontalAlignment="Left" FontSize="70" Height="90" FontFamily="Segoe Script"  Grid.ColumnSpan="4"  Grid.RowSpan="2" Grid.Column="9" />
+        <TextBlock Text="Sign Up" 
+              HorizontalAlignment="Center" FontSize="100" Height="150" FontFamily="Segoe Script"  Grid.ColumnSpan="8" Grid.Row="3"  Grid.RowSpan="4" Grid.Column="13" />
         <TextBlock/>
 
 
 
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" Spacing="15" Grid.Column="7" Grid.Row="1" Grid.ColumnSpan="11" Grid.RowSpan="11">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" Spacing="15" Grid.Column="12" Grid.Row="7" Grid.ColumnSpan="11" Grid.RowSpan="11">
             <TextBlock Text="User Name:"  FontSize="28"/>
             <TextBox x:Name="userName" FontSize="24" Height="50"/>
 
@@ -101,7 +101,7 @@
             <TextBlock Text="Email:"  FontSize="28"/>
             <TextBox x:Name="userEmail" FontSize="24" Height="50"/>
 
-            <Button Content="Sign Up" FontSize="24" Height="55" Width="200" Click="SingUp_Click"/>
+            <Button Content="Sign Up" FontSize="24" Height="55" Width="200" />
 
         </StackPanel>
 

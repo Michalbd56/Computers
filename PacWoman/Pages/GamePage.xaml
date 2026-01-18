@@ -115,5 +115,26 @@
         </Button>
 
         <Image x:Name ="stopicon" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="14" Grid.RowSpan="3"   Source="/Assets/ "  ></Image>
+
+        <Grid x:Name="GameOverOverlay"
+      Background="#AA000000"
+      Visibility="Collapsed">
+
+            <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="White"
+                Padding="20"
+                Width="300">
+
+                <TextBlock Text="You lost all your lives&#10;Tap to restart"
+                   FontSize="20"
+                   TextAlignment="Center"
+                   Grid.Column="14" Grid.ColumnSpan="3" Grid.Row="14" Grid.RowSpan="3"/>
+
+                <Button Content="Restart Game"
+                Height="40"
+                Click="RestartGame_Click"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>

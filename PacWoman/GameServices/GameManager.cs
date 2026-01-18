@@ -8,7 +8,7 @@ namespace PacWoman.GameServices
 {
     public class GameManager : Manager
     {
-        public static GameUser Gameuser  = new GameUser();
+        //public static GameUser Gameuser  = new GameUser();
         private Scene _scene;
         Random r = new Random();
         private DispatcherTimer _RunTimer; // טיימר שבזכותו האובייקטים הנעים ינועו //

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -29,7 +30,9 @@ namespace PacWoman.Pages
 
         private void play_Click(object sender, RoutedEventArgs e)
         {
+            string dbPath = ApplicationData.Current.LocalFolder.Path;
             Frame.Navigate(typeof(GamePage));
+
         }
 
         private void store_Click(object sender, RoutedEventArgs e)
@@ -39,7 +42,7 @@ namespace PacWoman.Pages
 
         private void login_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Login));
+            Frame.Navigate(typeof(SignUp));
 
         }
     }

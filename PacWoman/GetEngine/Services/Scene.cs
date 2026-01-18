@@ -44,7 +44,7 @@ namespace GameEngine.Services
                     {
                         //של אותו האובייקט, כלומר, אם הפעולה נקראת, זה אומר שבוודאות קרתה התנגשות. כל אובייקט רושם מחדש את הפעולה מפני שמגיב אחרת Collide אם האובייקט מתנגש עם אובייקט אחר, נקראת הפעולה  
                         //כדי שיוכל להגיב באופן מיוחד Collide כל אובייקט ידרוס את הפעולה 
-                        gameObject.Collide(otherObject);
+                        gameObject.CollideAsync(otherObject);
                     }
                 }
             }
