@@ -14,12 +14,13 @@ namespace DateBaseProject
     {
         private static string dbPath = ApplicationData.Current.LocalFolder.Path; // נתיב מסד הנתונים במחשב
         private static string connectionString = "Filename=" + dbPath + "\\PacWomanDataBase.db"; //מתחבר למסד הנתונים
-        public static int? ValidateUser(string Name, string Password)
+        public static int? ValidateUser(string userName, string userPassword)
         {
             //הפעולה בודקת אם המשתמש הזין נתונים נכונים ונמצא במאגר משתמשים
             //של המשתמש UserId אם הכל תקין, הפעולה מחזירה את
-             //null אם הנתונים אינם תקינים הפעולה מחזירה ערך
-            string query = $"SELECT UserId FROM [User] WHERE UserName='{Name}' AND UserPassword='{Password}'";
+            //null אם הנתונים אינם תקינים הפעולה מחזירה ערך
+            //The SELECT statement is used to select data from a database
+            string query = $"SELECT UserId FROM [Users] WHERE UserName='{userName}' AND UserPassword='{userPassword}'";
             using (SqliteConnection connection = new SqliteConnection(connectionString))
             {
                 connection.Open();
