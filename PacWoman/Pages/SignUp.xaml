@@ -92,16 +92,16 @@
             <TextBox x:Name="userName" FontSize="24" Height="50"/>
 
             <TextBlock Text="Password:"  FontSize="28"/>
-            <PasswordBox x:Name="Password1" FontSize="24" Height="50"/>
+            <PasswordBox x:Name="userPassword" FontSize="24" Height="50"/>
 
             <TextBlock Text="Password check"  FontSize="28"/>
             <PasswordBox x:Name="Password2" FontSize="24" Height="50"/>
 
 
             <TextBlock Text="Email:"  FontSize="28"/>
-            <TextBox x:Name="userEmail" FontSize="24" Height="50"/>
+            <TextBox x:Name="userEmail" FontSize="24" Height="50" TextChanged="userEmail_TextChanged"/>
 
-            <Button Content="Sign Up" FontSize="24" Height="55" Width="200" />
+            <Button Content="Sign Up" FontSize="24" Height="55" Width="200" Click="Button_Click"/>
 
         </StackPanel>
 

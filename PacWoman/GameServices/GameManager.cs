@@ -12,6 +12,9 @@ namespace PacWoman.GameServices
         private Scene _scene;
         Random r = new Random();
         private DispatcherTimer _RunTimer; // טיימר שבזכותו האובייקטים הנעים ינועו //
+
+        public static object GameUser { get; internal set; }
+
         public GameManager(Scene scene) : base(scene)
         {
             _scene = scene;

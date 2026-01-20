@@ -133,8 +133,6 @@
     <Compile Include="GameServices\GameEvents.cs" />
     <Compile Include="GameServices\GameManager.cs" />
     <Compile Include="GameServices\GameScene.cs" />
-    <Compile Include="Modles\GameLevel.cs" />
-    <Compile Include="Modles\GameUser.cs" />
     <Compile Include="Pages\GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
