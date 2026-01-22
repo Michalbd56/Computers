@@ -68,7 +68,7 @@ namespace PacWoman.GameObjects
             SetName("Objects/player/pac gif L.gif");
         }
 
-        public override async void CollideAsync(GameObject g)
+        public override async void Collide(GameObject g)
         {
             if (g is Block)
             {

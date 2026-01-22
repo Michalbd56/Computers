@@ -14,6 +14,12 @@ namespace DateBaseProject
     {
         private static string dbPath = ApplicationData.Current.LocalFolder.Path; // נתיב מסד הנתונים במחשב
         private static string connectionString = "Filename=" + dbPath + "\\PacWomanDataBase.db"; //מתחבר למסד הנתונים
+
+        public static void AddNewUser(string name, string password, string email)
+        {
+            
+        }
+
         public static int? ValidateUser(string userName, string userPassword)
         {
             //הפעולה בודקת אם המשתמש הזין נתונים נכונים ונמצא במאגר משתמשים

@@ -226,7 +226,9 @@
     <Content Include="Assets\Objects\purpleblock.png" />
     <Content Include="Assets\Objects\rewards\coin.png" />
     <Content Include="Assets\Objects\rewards\strawberry.png" />
+    <Content Include="Assets\Pictures\Check %283%29.png" />
     <Content Include="Assets\Pictures\clean gray background.jpg" />
+    <Content Include="Assets\Pictures\Cross %283%29.png" />
     <Content Include="Assets\Pictures\homeicon.png" />
     <Content Include="Assets\Pictures\loginBtn.png" />
     <Content Include="Assets\Pictures\logingif.gif" />

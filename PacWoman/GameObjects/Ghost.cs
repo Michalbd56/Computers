@@ -70,7 +70,7 @@ namespace PacWoman.GameObjects
             }
         }
 
-        public override async void CollideAsync(GameObject g)
+        public override void Collide(GameObject g)
         {
            
             if (g is Block)

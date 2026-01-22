@@ -63,6 +63,8 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
+
+            <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
@@ -81,29 +83,151 @@
         <Grid.Background>
             <ImageBrush ImageSource="/Assets/Backgrounds/SpaceStarsHomepage.jpeg"></ImageBrush>
         </Grid.Background>
-        <TextBlock Text="Sign Up" 
-              HorizontalAlignment="Center" FontSize="100" Height="150" FontFamily="Segoe Script"  Grid.ColumnSpan="8" Grid.Row="3"  Grid.RowSpan="4" Grid.Column="13" />
-        <TextBlock/>
 
 
+        <Viewbox Grid.Column="10" Grid.Row="1" Grid.ColumnSpan="16" Grid.RowSpan="4">
+            <TextBlock Text="Entering the game" Foreground="DarkOrange"  TextAlignment="Center" FontFamily="Broadway" FontSize="45" ></TextBlock>
+        </Viewbox>
 
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" Spacing="15" Grid.Column="12" Grid.Row="7" Grid.ColumnSpan="11" Grid.RowSpan="11">
-            <TextBlock Text="User Name:"  FontSize="28"/>
-            <TextBox x:Name="userName" FontSize="24" Height="50"/>
+        <Button Style="{StaticResource ButtonRevealStyle}" x:Name="exitButton" Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="2"
+         Grid.RowSpan="2" Background="Transparent" x:Uid="1" Click="exitsignupButton_Click">
+            <Image x:Name="exitImage" Source="/Assets/Pictures/Cross (3).png"></Image>
+        </Button>
 
-            <TextBlock Text="Password:"  FontSize="28"/>
-            <PasswordBox x:Name="userPassword" FontSize="24" Height="50"/>
+        <Grid x:Name="newUserGrid" Background="CadetBlue" Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="12" Grid.RowSpan="17"
+            BorderBrush="BlueViolet" BorderThickness="5" CornerRadius="25" Opacity="0.7">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
 
-            <TextBlock Text="Password check"  FontSize="28"/>
-            <PasswordBox x:Name="Password2" FontSize="24" Height="50"/>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Viewbox Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="6" Grid.RowSpan="3" >
+                <TextBlock Text="New user? "  Foreground="DeepPink" TextAlignment="Center" FontFamily="Broadway" FontSize="60" ></TextBlock>
+            </Viewbox>
+
+            <Button Style="{StaticResource ButtonRevealStyle}" x:Name="yesButton" Grid.Row="11" Grid.Column="5" Grid.ColumnSpan="2"
+            Grid.RowSpan="2" Background="Transparent" Click="yesButton_Click">
+                <Image x:Name="yesImage" Source="/Assets/Pictures/Check (3).png" ></Image>
+            </Button>
+
+            <Viewbox Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="10" >
+                <TextBox x:Name="userName" Width="606" BorderBrush="Black" BorderThickness="3" CornerRadius="10"
+                          PlaceholderText="Enter your name, please"  FontSize="34" MaxLength="20" TextAlignment="Center"
+                         FontFamily="Broadway" Height="73"></TextBox>
+            </Viewbox>
+
+            <Viewbox Grid.Column="1" Grid.Row="5"  Grid.RowSpan="1" Grid.ColumnSpan="10" >
+                <PasswordBox x:Name="userPassword" Width="606" BorderBrush="Black" BorderThickness="3" CornerRadius="10"
+               PlaceholderText="    Enter your Password, please"  FontSize="34" MaxLength="20" HorizontalContentAlignment="Center"
+              FontFamily="Broadway" Height="73"></PasswordBox>
+            </Viewbox>
+
+            <Viewbox Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="10" >
+                <PasswordBox x:Name="userPasswordAgain" Width="606" BorderBrush="Black" BorderThickness="3" CornerRadius="10"
+            PlaceholderText="     Enter your Password again"  FontSize="34" MaxLength="20" HorizontalContentAlignment="Center"
+             FontFamily="Broadway" Height="73"></PasswordBox>
+            </Viewbox>
+
+            <Viewbox Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="10" >
+                <TextBox x:Name="userEmail" Width="606" BorderBrush="Black" BorderThickness="3" CornerRadius="10"
+             PlaceholderText="Enter your Email, please"  FontSize="34" MaxLength="20" TextAlignment="Center"
+              FontFamily="Broadway" Height="73"></TextBox>
+            </Viewbox>
+
+        </Grid>
+
+        <Grid x:Name="existsUserGrid" Background="BlueViolet" Grid.Row="6" Grid.Column="21" Grid.ColumnSpan="12" Grid.RowSpan="17"
+            BorderBrush="MediumTurquoise" BorderThickness="5" CornerRadius="25" Opacity="0.7">
+           
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
 
 
-            <TextBlock Text="Email:"  FontSize="28"/>
-            <TextBox x:Name="userEmail" FontSize="24" Height="50" TextChanged="userEmail_TextChanged"/>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
 
-            <Button Content="Sign Up" FontSize="24" Height="55" Width="200" Click="Button_Click"/>
+            </Grid.ColumnDefinitions>
 
-        </StackPanel>
+            <Viewbox Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="6" Grid.RowSpan="2" >
+                <TextBlock Text="User exist? " Foreground="DeepPink" TextAlignment="Center" FontFamily="Broadway" FontSize="50" ></TextBlock>
+            </Viewbox>
+            
+            <Viewbox Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="10" >
+                <TextBox x:Name="userExistName" Width="606" BorderBrush="Black" BorderThickness="3" CornerRadius="10"
+               PlaceholderText="Enter your name, please"  FontSize="34" MaxLength="20" TextAlignment="Center"
+              FontFamily="Broadway" Height="73"></TextBox>
+            </Viewbox>
+            
+            <Viewbox Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="10" >
+                <PasswordBox x:Name="userExistPassword" Width="606" BorderBrush="Black" BorderThickness="3" CornerRadius="10"
+                PlaceholderText="Enter your Password, please"  FontSize="34" MaxLength="20" HorizontalContentAlignment="Center"
+                 FontFamily="Broadway" Height="73"></PasswordBox>
+            </Viewbox>
+            <Button Style="{StaticResource ButtonRevealStyle}" x:Name="yesExistButton" Grid.Row="11" Grid.Column="5" Grid.ColumnSpan="2"
+            Grid.RowSpan="2" Background="Transparent">
+                <Image x:Name="yesExistImage" Source="/Assets/Pictures/Check (3).png"></Image>
+            </Button>
 
+        </Grid>
     </Grid>
+
 </Page>
