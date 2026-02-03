@@ -18,7 +18,7 @@ namespace PacWoman.Modles
         public GameLevel Level {  get; set; } = new GameLevel();
 
         public string CurrentCharacter { get; set; } = "Yellow";
-        public int CountGhosts { get; set; } = 3;
-        public int GhostsSpeed { get; set; } = 3;
+        public int Score { get; set; } = 0;
+       
     }
 }

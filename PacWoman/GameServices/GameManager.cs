@@ -271,7 +271,7 @@ namespace PacWoman.GameServices
                 _scene.AddObject(new Block(DirectionBlockType.vertical, 580, j, 7));
             }
 
-            for (int j = 415; j <= 425; j += 100)
+            for (int j = 415; j <= 430; j += 100)
             {
                 _scene.AddObject(new Block(DirectionBlockType.vertical, 580, j, 5));
             }

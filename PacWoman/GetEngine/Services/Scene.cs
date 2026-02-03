@@ -1,19 +1,20 @@
-﻿using GameEngine.Objects;
-using System;
+﻿
+using GameEngine.Objects;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-
 namespace GameEngine.Services
 {
     public abstract class Scene : Canvas
     {
-        private List<GameObject> _gameObjects = new List<GameObject>();  //מאגר כל האובייקטים של המשחק
+        private List<GameObject> _gameObjects = new List<GameObject>();
+  //מאגר כל האובייקטים של המשחק
         public double Ground { get; set; } //ריצפה
         protected List<GameObject> _gameObjectsSnapshot => _gameObjects.ToList();   //העתק 
+
+        public IEnumerable<object> GameObject { get; set; }
+
         private static bool _was = false;
         public Scene()
         {
@@ -61,6 +62,17 @@ namespace GameEngine.Services
             }
         }
 
+
+        //public void FrightenAllGhosts()
+        //{
+        //        foreach (var obj in _objects)
+        //    {
+        //        if (obj is Ghost ghost)
+        //        {
+        //            ghost.SetFrightened();
+        //        }
+        //    }
+        //}
 
         public void RemoveObject(GameObject gameObject)           //הפעולה מוחקת אובייקט
         {

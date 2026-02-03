@@ -11,6 +11,7 @@ namespace PacWoman.GameObjects
     {
         public Coin(string fileName, double x, double y, double size) : base(fileName, x, y, size)
         {
+
         }
     }
 }

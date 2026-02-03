@@ -16,6 +16,8 @@ namespace PacWoman.GameObjects
         private static Random random = new Random();
         public GhostColor Color { get; private set; }
         private int _direction;
+        private bool _isFrightened = false;
+        private string _normalGif;
 
         public Ghost(Scene scene, GhostColor color, double x, double y, double width) : base(string.Empty, x, y, width)
         {
@@ -26,25 +28,36 @@ namespace PacWoman.GameObjects
         }
         private void SetImageByColor()
         {
-
             switch (Color)
             {
                 case GhostColor.pink:
-                    SetName("Objects/ghosts/pinkghost gif.gif");
-                    //Image.Height = width * 15.75;
+                    _normalGif = "Objects/ghosts/pinkghost gif.gif";
                     break;
                 case GhostColor.red:
-                    SetName("Objects/ghosts/redghost gif.gif");
-                    //Image.Height = width * 9.75;
+                    _normalGif = "Objects/ghosts/redghost gif.gif";
                     break;
                 case GhostColor.orange:
-                    SetName("Objects/ghosts/orangeghost gif.gif");
+                    _normalGif = "Objects/ghosts/orangeghost gif.gif";
                     break;
-
                 case GhostColor.blue:
-                    SetName("Objects/ghosts/blueghost gif.gif");
+                    _normalGif = "Objects/ghosts/blueghost gif.gif";
                     break;
             }
+
+            SetName(_normalGif);
+        }
+
+        public async void SetFrightened()
+        {
+            if (_isFrightened) return;
+
+            _isFrightened = true;
+            SetName("Objects/ghosts/scaredghost gif.gif");
+
+            await Task.Delay(10000); // scared for 10 seconds
+
+            _isFrightened = false;
+            SetName(_normalGif);
         }
 
         private void SetSpeedByDirection()

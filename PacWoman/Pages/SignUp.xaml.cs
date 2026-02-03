@@ -1,6 +1,7 @@
 ﻿using DateBaseProject;
 using PacWoman.GameServices;
 using System;
+using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -34,6 +35,12 @@ namespace PacWoman.Pages
         private bool CheckStrongPassword(string password)
         {
             return true;
+            //return password.Length >= 12 && 
+            //    password.Any(char.IsDigit)&&
+            //    password.Any(char.IsUpper)&&
+            //    password.Any(char.IsLower)&&
+            //    password.Any(ch => !char.IsLetterOrDigit(ch));
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -74,9 +81,12 @@ namespace PacWoman.Pages
                     // Here you would typically add code to save the new user's information to a database or file.
                     await new MessageDialog("Sign up successful!", "Success").ShowAsync();
                 }
-                newUserGrid.Visibility = Visibility.Collapsed;
-                //Frame.Navigate(typeof(HomePage));
-                await new MessageDialog("you must log in!").ShowAsync();
+                else
+                {
+                    newUserGrid.Visibility = Visibility.Collapsed;
+                    //Frame.Navigate(typeof(HomePage));
+                    await new MessageDialog(" you already  have an account, log in!").ShowAsync();
+                }
             }
         }
     }

@@ -217,6 +217,7 @@
     <Content Include="Assets\Objects\ghosts\orangeghost gif.gif" />
     <Content Include="Assets\Objects\ghosts\pinkghost gif.gif" />
     <Content Include="Assets\Objects\ghosts\redghost gif.gif" />
+    <Content Include="Assets\Objects\ghosts\scaredghost gif.gif" />
     <Content Include="Assets\Objects\rewards\apple.png" />
     <Content Include="Assets\Objects\heart.png" />
     <Content Include="Assets\Objects\player\pac gif D.gif" />

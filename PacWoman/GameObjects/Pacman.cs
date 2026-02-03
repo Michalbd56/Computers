@@ -102,9 +102,17 @@ namespace PacWoman.GameObjects
             }
             if (g is strawberry)
             {
-                _collectedCoins= _collectedCoins+10;
+                _collectedCoins += 10;
                 _scene.RemoveObject(g);
                 Manager.Events.OnUpdateScore?.Invoke(_collectedCoins);
+
+                foreach (var obj in _scene.GameObject)
+                {
+                    if (obj is Ghost ghost)
+                    {
+                        ghost.SetFrightened();
+                    }
+                }
             }
             if (g is Ghost)
             {
