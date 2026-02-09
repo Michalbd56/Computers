@@ -26,10 +26,16 @@ namespace DateBaseProject
                                                                 
             //-------------------------------------------
             AddGameData(userId.Value); //הוספת נתוני ברירת מחדל לטבלאת gamedate  
-            //AddUserProduct(userId.Value);
+            AddUserSkin(userId.Value);
             return GetUser(userId.Value);
 
 
+        }
+
+        private static void AddUserSkin(int userId)
+        {
+            string query = $"INSERT INTO [UserSkin] (UserId,Skin) VALUES ({userId},'{"Yellow"}')";
+            Execute(query);
         }
 
         private static void AddGameData(int userId)
