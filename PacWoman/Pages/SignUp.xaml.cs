@@ -2,6 +2,7 @@
 using PacWoman.GameServices;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -89,5 +90,23 @@ namespace PacWoman.Pages
                 }
             }
         }
+
+        private async void yesExistButton_Click(object sender, RoutedEventArgs e)// הפעולה בודקת אם קיים משתמש
+        {
+            int? userId = Server.ValidateUser(userName.Text.Trim(), userPassword.Password.Trim());
+            if (userId == null)
+            {
+                await new MessageDialog("The account does not exist or data is incorrect").ShowAsync();
+            }
+            else
+            {
+                GameManager.Gameuser = Server.GetUser(userId.Value);
+                await new MessageDialog("Congratulations! you have log in successfully").ShowAsync();
+                    Frame.Navigate(typeof(HomePage));
+            }
+
+
+        }
+
     }
 }

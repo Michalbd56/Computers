@@ -68,7 +68,7 @@ namespace PacWoman.GameObjects
             SetName("Objects/player/pac gif L.gif");
         }
 
-        public override async void Collide(GameObject g)
+        public override void Collide(GameObject g)
         {
             if (g is Block)
             {
@@ -105,14 +105,14 @@ namespace PacWoman.GameObjects
                 _collectedCoins += 10;
                 _scene.RemoveObject(g);
                 Manager.Events.OnUpdateScore?.Invoke(_collectedCoins);
-
-                foreach (var obj in _scene.GameObject)
-                {
-                    if (obj is Ghost ghost)
-                    {
-                        ghost.SetFrightened();
-                    }
-                }
+                GameManager.GameEvents.OnStrawberryEaten?.Invoke();
+                //foreach (var obj in _scene.GameObjects)
+                //{
+                //    if (obj is Ghost ghost)
+                //    {
+                //        ghost.SetFrightened();
+                //    }
+                //}
             }
             if (g is Ghost)
             {

@@ -9,7 +9,7 @@ namespace PacWoman.Modles
    public class GameLevel
     {
         public int LevelId { get; set; } = 1;
-        public int CountGhosts { get; set; } = 3;
+        public int CountGhosts { get; set; } = 2;
         public int GhostsSpeed { get; set; } = 3;
     }
 }

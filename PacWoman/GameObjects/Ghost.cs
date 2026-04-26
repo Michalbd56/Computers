@@ -1,5 +1,6 @@
 ﻿using GameEngine.Objects;
 using GameEngine.Services;
+using PacWoman.GameServices;
 using System;
 using System.Threading.Tasks;
 
@@ -19,12 +20,14 @@ namespace PacWoman.GameObjects
         private bool _isFrightened = false;
         private string _normalGif;
 
+
         public Ghost(Scene scene, GhostColor color, double x, double y, double width) : base(string.Empty, x, y, width)
         {
             _direction = random.Next(4);
             Color = color;
             SetSpeedByDirection();
             SetImageByColor();
+            GameManager.GameEvents.OnStrawberryEaten += SetFrightened;
         }
         private void SetImageByColor()
         {

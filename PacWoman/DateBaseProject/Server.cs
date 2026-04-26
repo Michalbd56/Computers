@@ -38,6 +38,12 @@ namespace DateBaseProject
             Execute(query);
         }
 
+        public static void AddUserSkin(int userId, string name)
+        {
+            string query = $"INSERT INTO [UserSkin] (UserId,Skin) VALUES ({userId},'{"Yellow"}')";
+            Execute(query);
+        }
+
         private static void AddGameData(int userId)
         {  
             string query = $"INSERT INTO [GameData] (UserId,CollectedCoins,MaxLevel,CurrentCharacter) VALUES ({userId},{0},{1},'{"Yellow"}')";
@@ -47,7 +53,7 @@ namespace DateBaseProject
         public static GameUser GetUser(int userId)
         {
             GameUser user = null;
-            string query = $"SELECT UserId,UserName,UserEmail,UserPassword FROM [Users] WHERE UserId='{userId}'";
+            string query = $"SELECT UserId,UserName FROM [Users] WHERE UserId={userId}";
             using (SqliteConnection connection = new SqliteConnection(connectionString))
             {
                 connection.Open();
@@ -60,12 +66,34 @@ namespace DateBaseProject
                     {
                         Id = reader.GetInt32(0),
                         UserName = reader.GetString(1),
-                        Email = reader.GetString(2),
-                        Password = reader.GetString(3)
                     };
                 }
             }
+            // הם נתוני המשחק gameData כעת נקרא את הנתונים מהטבלה 
+            if (user != null)
+            {
+                SetUser(user);// המשך מילוי משתמש
+            }
             return user;
+        }
+
+        private static void SetUser(GameUser user)
+        {
+            string query = $"SELECT CollectedCoins,MaxLevel,CurrentCharacter FROM [GameData] WHERE {user.Id}=UserId ";
+            using (SqliteConnection connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                SqliteCommand command = new SqliteCommand(query, connection);
+                SqliteDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    user.CollectedCoins = reader.GetInt32(0);
+                    user.MaxLevel = reader.GetInt32(0); 
+                    user.CurrentCharacter = reader.GetString (2);
+
+                }
+            }
         }
 
         public static int? ValidateUser(string userName, string userPassword)
@@ -98,6 +126,27 @@ namespace DateBaseProject
                 SqliteCommand command = new SqliteCommand(query, connection);
                 command.ExecuteNonQuery();
             }
+        }
+
+        public static List<string> GetMyCharacters(int id)
+        {
+            List<string> nameCharacters = new List<string>();
+            string query = $"SELECT Skin FROM [UserSkin] WHERE UserId={id}";
+            using (SqliteConnection connection = new SqliteConnection(connectionString)) 
+            {
+                connection.Open(); 
+                SqliteCommand command = new SqliteCommand( query, connection);
+                SqliteDataReader reader = command.ExecuteReader();
+                if(reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        nameCharacters.Add(reader.GetString(0));   
+                    }
+                       return nameCharacters; 
+                }
+            }
+            return null;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using GameEngine.Services;
 using PacWoman.GameObjects;
+using PacWoman.Modles;
 using System;
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
@@ -8,21 +9,27 @@ namespace PacWoman.GameServices
 {
     public class GameManager : Manager
     {
-        //public static GameUser Gameuser  = new GameUser();
+        public static GameUser Gameuser  = new GameUser();
+        public static GameServices.GameEvents GameEvents = new GameServices.GameEvents();
         private Scene _scene;
         Random r = new Random();
         private DispatcherTimer _RunTimer; // טיימר שבזכותו האובייקטים הנעים ינועו //
+        private int _level;
 
-        public static object GameUser { get; internal set; }
+        
 
-        public GameManager(Scene scene) : base(scene)
+        public GameManager(Scene scene, int level) : base(scene)
         {
             _scene = scene;
+            _level = level;
+
             _scene.AddObject(new Pacman(_scene, "Objects/Player/pac gif R.gif", 770, 375, 30));
+
             CreateMaze();
             CreateCoins();
             CreateGhots();
         }
+
 
         private void CreateCoins()
         {
@@ -122,9 +129,9 @@ namespace PacWoman.GameServices
                 _scene.AddObject(new Block(DirectionBlockType.horizontal, i, 170, 100));
             }
 
-            for (int i = 70; i <= 170; i += 100)
+            for (int i = 0; i <= 220; i += 83)
             {
-                _scene.AddObject(new Block(DirectionBlockType.horizontal, i, 257, 100));
+                _scene.AddObject(new Block(DirectionBlockType.horizontal, i, 257, 83));
             }
 
             for (int i = 70; i <= 170; i += 100)
@@ -152,16 +159,16 @@ namespace PacWoman.GameServices
 
             for (int i = 490; i <= 610; i += 100)//בית של רוחות
             {
-                _scene.AddObject(new Block(DirectionBlockType.horizontal, i, 305, 100));
+                _scene.AddObject(new Block(DirectionBlockType.horizontal, i, 310, 100));//-------
             }
             for (int i = 210; i <= 245; i += 20)//בית של רוחות
             {
-                _scene.AddObject(new Block(DirectionBlockType.vertical, 682, i, 9));
+                _scene.AddObject(new Block(DirectionBlockType.vertical, 682, i, 9));//||||||
 
             }
-            for (int i = 490; i <= 610; i += 100)//בית של רוחות
+            for (int i = 210; i <= 245; i += 20)//בית של רוחות
             {
-                _scene.AddObject(new Block(DirectionBlockType.horizontal, 600, i, 10));
+                _scene.AddObject(new Block(DirectionBlockType.vertical, 490, i, 9));
             }
 
 
@@ -177,7 +184,7 @@ namespace PacWoman.GameServices
 
             }
 
-            for (int i = 940; i <= 1040; i += 100)
+            for (int i = 940; i <= 1100; i += 20)
             {
                 _scene.AddObject(new Block(DirectionBlockType.horizontal, i, 257, 100));
 
@@ -266,24 +273,37 @@ namespace PacWoman.GameServices
 
 
 
-            for (int j = 60; j <= 80; j += 100)
+            for (int j = 0; j <= 8; j += 7)
             {
                 _scene.AddObject(new Block(DirectionBlockType.vertical, 580, j, 7));
             }
 
-            for (int j = 415; j <= 430; j += 100)
+            for (int j = 470; j <= 470; j += 7)
             {
-                _scene.AddObject(new Block(DirectionBlockType.vertical, 580, j, 5));
+                _scene.AddObject(new Block(DirectionBlockType.vertical, 580, j, 7));
             }
 
         }
-            private void CreateGhots()
+        private void CreateGhots()
         {
-            _scene.AddObject(new Ghost(_scene, GhostColor.pink, 630, 270, 30));
-            _scene.AddObject(new Ghost(_scene, GhostColor.red, 590, 270, 33));
-            _scene.AddObject(new Ghost(_scene, GhostColor.orange, 550, 270, 35));
-            _scene.AddObject(new Ghost(_scene, GhostColor.blue, 510, 270, 30));
-
+            if (Gameuser.Level.CountGhosts == 2) // קל
+            {
+                _scene.AddObject(new Ghost(_scene, GhostColor.pink, 630, 270, 25));
+                _scene.AddObject(new Ghost(_scene, GhostColor.red, 590, 270, 25));
+            }
+            else if (Gameuser.Level.CountGhosts == 3) // בינוני
+            {
+                _scene.AddObject(new Ghost(_scene, GhostColor.pink, 630, 270, 30));
+                _scene.AddObject(new Ghost(_scene, GhostColor.red, 590, 270, 30));
+                _scene.AddObject(new Ghost(_scene, GhostColor.orange, 550, 270, 30));
+            }
+            else if (Gameuser.Level.CountGhosts == 4) // קשה
+            {
+                _scene.AddObject(new Ghost(_scene, GhostColor.pink, 630, 270, 35));
+                _scene.AddObject(new Ghost(_scene, GhostColor.red, 590, 270, 35));
+                _scene.AddObject(new Ghost(_scene, GhostColor.orange, 550, 270, 35));
+                _scene.AddObject(new Ghost(_scene, GhostColor.blue, 510, 270, 35));
+            }
         }
 
 
@@ -297,7 +317,7 @@ namespace PacWoman.GameServices
 
 
     }
-    }
+}
     
 
 

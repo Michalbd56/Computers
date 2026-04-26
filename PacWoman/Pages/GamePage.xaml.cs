@@ -26,7 +26,7 @@ namespace PacWoman.Pages
             musicPlayer = new MediaPlayer();
             musicPlayer.IsLoopingEnabled = true;
         }
-
+        private int _selectedLevel = 1;
         private MediaPlayer musicPlayer;
         private bool isPlaying = false;
 
@@ -52,7 +52,7 @@ namespace PacWoman.Pages
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            _gamemanager = new GameManager(scene);
+            _gamemanager = new GameManager(scene, _selectedLevel);
             Manager.Events.OnUpdateScore += ShowCollectedCoins;
             GameManager.Events.OnRemoveLifes += RemoveLifes;
         }
@@ -107,6 +107,16 @@ namespace PacWoman.Pages
                         await ShowGameOverDialog();
                     }
                 });
+        }
+
+        protected override void OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (e.Parameter != null)
+            {
+                _selectedLevel = (int)e.Parameter;
+            }
         }
 
         private async Task ShowGameOverDialog()

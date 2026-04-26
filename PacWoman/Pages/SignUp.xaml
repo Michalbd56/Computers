@@ -223,7 +223,7 @@
                  FontFamily="Broadway" Height="73"></PasswordBox>
             </Viewbox>
             <Button Style="{StaticResource ButtonRevealStyle}" x:Name="yesExistButton" Grid.Row="11" Grid.Column="5" Grid.ColumnSpan="2"
-            Grid.RowSpan="2" Background="Transparent">
+            Grid.RowSpan="2" Background="Transparent"  Click="yesExistButton_Click">
                 <Image x:Name="yesExistImage" Source="/Assets/Pictures/Check (3).png"></Image>
             </Button>
 

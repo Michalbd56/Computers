@@ -28,10 +28,30 @@ namespace PacWoman.Pages
             this.InitializeComponent();
         }
 
-        private void play_Click(object sender, RoutedEventArgs e)
+        private async void play_Click(object sender, RoutedEventArgs e)
         {
-            string dbPath = ApplicationData.Current.LocalFolder.Path;
-            Frame.Navigate(typeof(GamePage));
+            ContentDialog levelDialog = new ContentDialog()
+            {
+                Title = "איזה שלב תרצה לשחק?",
+                PrimaryButtonText = "שלב 1",
+                SecondaryButtonText = "שלב 2",
+                CloseButtonText = "שלב 3"
+            };
+
+            ContentDialogResult result = await levelDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                Frame.Navigate(typeof(GamePage), 1);
+            }
+            else if (result == ContentDialogResult.Secondary)
+            {
+                Frame.Navigate(typeof(GamePage), 2);
+            }
+            else
+            {
+                Frame.Navigate(typeof(GamePage), 3);
+            }
 
         }
 

@@ -18,6 +18,9 @@ namespace PacWoman.Modles
         public GameLevel Level {  get; set; } = new GameLevel();
 
         public string CurrentCharacter { get; set; } = "Yellow";
+        public int MaxLevel { get; set; } = 3;
+        public int CollectedCoins { get; set; } = 0 ;
+
         public int Score { get; set; } = 0;
        
     }
