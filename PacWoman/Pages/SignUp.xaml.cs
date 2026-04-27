@@ -93,7 +93,7 @@ namespace PacWoman.Pages
 
         private async void yesExistButton_Click(object sender, RoutedEventArgs e)// הפעולה בודקת אם קיים משתמש
         {
-            int? userId = Server.ValidateUser(userName.Text.Trim(), userPassword.Password.Trim());
+            int? userId = Server.ValidateUser(userExistName.Text.Trim(), userExistPassword.Password.Trim());
             if (userId == null)
             {
                 await new MessageDialog("The account does not exist or data is incorrect").ShowAsync();

@@ -20,11 +20,20 @@ namespace PacWoman.GameObjects
         private bool _isFrightened = false;
         private string _normalGif;
 
+        // Store spawn position so we can reset after being eaten
+        private double _spawnX;
+        private double _spawnY;
+
+        // Expose frightened state so Pacman can check it
+        public bool IsFrightened => _isFrightened;
+
 
         public Ghost(Scene scene, GhostColor color, double x, double y, double width) : base(string.Empty, x, y, width)
         {
             _direction = random.Next(4);
             Color = color;
+            _spawnX = x;
+            _spawnY = y;
             SetSpeedByDirection();
             SetImageByColor();
             GameManager.GameEvents.OnStrawberryEaten += SetFrightened;
@@ -63,6 +72,18 @@ namespace PacWoman.GameObjects
             SetName(_normalGif);
         }
 
+        // Called by Pacman when it eats this ghost during frightened mode
+        public void ResetToSpawn()
+        {
+            _isFrightened = false;
+            _x = _spawnX;
+            _y = _spawnY;
+            SetName(_normalGif);
+            // Give the ghost a fresh random direction
+            _direction = random.Next(4);
+            SetSpeedByDirection();
+        }
+
         private void SetSpeedByDirection()
         {
             switch (_direction)
@@ -88,12 +109,11 @@ namespace PacWoman.GameObjects
 
         public override void Collide(GameObject g)
         {
-           
             if (g is Block)
             {
                 if (_speedX < 0)//זז שמאל
                 {
-                    int changedirection= random.Next(2,4);
+                    int changedirection = random.Next(2, 4);
                     _direction = changedirection;
                     _x += 4;
                 }
@@ -102,7 +122,7 @@ namespace PacWoman.GameObjects
                 {
                     int changedirection = random.Next(2, 4);
                     _direction = changedirection;
-                    _x -=4;
+                    _x -= 4;
                 }
                 if (_speedY > 0)// זז למטה
                 {
@@ -117,12 +137,13 @@ namespace PacWoman.GameObjects
                     _y += 5;
                 }
                 SetSpeedByDirection();
+            }
 
-                if (g is Pacman)
-                {
-                    
-                }
-
+            // When frightened, do NOT eat Pacman — Pacman's Collide handles eating the ghost
+            if (g is Pacman && _isFrightened)
+            {
+                // Do nothing — let Pacman's collision handler take over
+                return;
             }
         }
     }

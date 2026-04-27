@@ -13,31 +13,22 @@ namespace PacWoman.GameObjects
         private int _collectedCoins = 0;
         private int _hearts = 3;
 
-        public Pacman(Scene scene,string fileName, double x, double y, double size) : base(fileName, x, y, size)
+        public Pacman(Scene scene, string fileName, double x, double y, double size) : base(fileName, x, y, size)
         {
             _scene = scene;
             Manager.Events.OnKeyUp += Move;
-
         }
+
         protected void Move(VirtualKey key)
         {
             if (key == ControlKeys.PlayerRunLeft)
-            {
                 RunLeft();
-            }
             if (key == ControlKeys.PlayerRunRight)
-            {
                 RunRight();
-            }
             if (key == ControlKeys.PlayerRunUp)
-            {
                 RunUp(this);
-            }
-
             if (key == ControlKeys.PlayerRunDown)
-            {
                 RunDown(this);
-            }
         }
 
         private void RunDown(Pacman pacman)
@@ -72,90 +63,53 @@ namespace PacWoman.GameObjects
         {
             if (g is Block)
             {
-                if (_speedX < 0)
-                {
-                    _speedX = 0;
-                    _x += 5;
-                }
-
-                if (_speedX > 0)
-                {
-                    _speedX = 0;
-                    _x -= 5;
-                }
-                if (_speedY > 0)
-                {
-                    _speedY = 0;
-                    _y -= 5;
-                }
-                if (_speedY < 0)
-                {
-                    _speedY = 0;
-                    _y += 5;
-                }
+                if (_speedX < 0) { _speedX = 0; _x += 5; }
+                if (_speedX > 0) { _speedX = 0; _x -= 5; }
+                if (_speedY > 0) { _speedY = 0; _y -= 5; }
+                if (_speedY < 0) { _speedY = 0; _y += 5; }
             }
+
             if (g is Coin)
             {
                 _collectedCoins++;
                 _scene.RemoveObject(g);
                 Manager.Events.OnUpdateScore?.Invoke(_collectedCoins);
+
+                // Win condition: all coins eaten and still alive
+                if (_collectedCoins >= GameManager.TotalCoins && _hearts > 0)
+                {
+                    GameManager.GameEvents.OnLevelComplete?.Invoke();
+                }
             }
+
             if (g is strawberry)
             {
                 _collectedCoins += 10;
                 _scene.RemoveObject(g);
                 Manager.Events.OnUpdateScore?.Invoke(_collectedCoins);
                 GameManager.GameEvents.OnStrawberryEaten?.Invoke();
-                //foreach (var obj in _scene.GameObjects)
-                //{
-                //    if (obj is Ghost ghost)
-                //    {
-                //        ghost.SetFrightened();
-                //    }
-                //}
             }
-            if (g is Ghost)
+
+            if (g is Ghost ghost)
             {
-                _hearts--;
-                GameManager.Events.OnRemoveLifes?.Invoke(_hearts);
-                _x = 770;
-                _y =  375;
-                _speedX = 0;
-                _speedY = 0;
+                if (ghost.IsFrightened)
+                {
+                    // Pacman eats frightened ghost: +30 coins, ghost resets to spawn
+                    _collectedCoins += 30;
+                    Manager.Events.OnUpdateScore?.Invoke(_collectedCoins);
+                    ghost.ResetToSpawn();
+                }
+                else
+                {
+                    // Normal ghost eats Pacman: lose a life and reset position
+                    _hearts--;
+                    GameManager.Events.OnRemoveLifes?.Invoke(_hearts);
+                    _x = 770;
+                    _y = 375;
+                    _speedX = 0;
+                    _speedY = 0;
+                }
             }
         }
-        // protected void MatchGifToState()
-        //{
-        //    switch (PlayerState)
-        //    {
-        //        case StateType.runDown: SetName("Objects/player/pac gif D.gif"); break;
-        //        case StateType.runLeft: SetName("Objects/player/pac gif L.gif"); break;
-        //        case StateType.runRight: SetName("Objects/player/pac gif R.gif"); break;
-        //        case StateType.runUp: SetName("Objects/player/pac gif U.gif"); break;
-
-        //    }
-        //}
-
-
-        // public override void Render()
-        //{
-        //    base.Render();
-        //    if ((_x <= 0 && _speedX < 0) || (Rect().Right >= _scene.ActualWidth && _speedX > 0))
-        //    {
-        //        _speedX = 0;
-        //    }
-        //    if ((_y <= 0 && _speedY < 0) || (Rect().Bottom >=0 _scene.ActualHeight && _speedY > 0))
-        //    {
-        //        _speedY = 0;
-        //    }
-        //    _x += _speedX;
-        //    _y += _speedY;
-
-
-
-
-
-
-
     }
 }

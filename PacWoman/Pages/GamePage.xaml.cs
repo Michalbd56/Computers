@@ -1,4 +1,5 @@
-﻿using GameEngine.Services;
+﻿using DateBaseProject;
+using GameEngine.Services;
 using PacWoman.GameServices;
 using System;
 using System.Threading.Tasks;
@@ -39,7 +40,10 @@ namespace PacWoman.Pages
         }
 
         private void homeicon_Click(object sender, RoutedEventArgs e)
-        {
+        { 
+            // להקפיא את המשחק ואז לקפוץ הודעה
+            // להקפיץ הודעה של האם השחקן בטוח שהוא רוצה לצאת ואם כן אז : ואם לא לסגור חלון
+            Server.SaveGameData(GameManager.Gameuser);
             Frame.Navigate(typeof(HomePage));
 
         }

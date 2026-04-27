@@ -148,6 +148,12 @@ namespace DateBaseProject
             }
             return null;
         }
+
+        public static void SaveGameData(GameUser gameuser)
+        {
+            string query = $"UPDATE GameData SET CollectedCoins = {gameuser.CollectedCoins} , MaxLevel = {gameuser.MaxLevel} , CurrentCharacter = '{ gameuser.CurrentCharacter}'";
+            Execute(query);
+        }
     }
 }
     

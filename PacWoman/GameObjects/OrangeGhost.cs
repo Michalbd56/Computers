@@ -8,5 +8,6 @@ namespace PacWoman.GameObjects
 {
    public class OrangeGhost 
     {
+
     }
 }

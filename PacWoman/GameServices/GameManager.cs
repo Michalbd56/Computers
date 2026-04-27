@@ -9,19 +9,21 @@ namespace PacWoman.GameServices
 {
     public class GameManager : Manager
     {
-        public static GameUser Gameuser  = new GameUser();
+        public static GameUser Gameuser = new GameUser();
         public static GameServices.GameEvents GameEvents = new GameServices.GameEvents();
         private Scene _scene;
         Random r = new Random();
-        private DispatcherTimer _RunTimer; // טיימר שבזכותו האובייקטים הנעים ינועו //
+        private DispatcherTimer _RunTimer;
         private int _level;
 
-        
+        // Total number of coins placed on the map — Pacman checks this to detect a win
+        public static int TotalCoins { get; private set; } = 0;
 
         public GameManager(Scene scene, int level) : base(scene)
         {
             _scene = scene;
             _level = level;
+            TotalCoins = 0; // reset each time a new game starts
 
             _scene.AddObject(new Pacman(_scene, "Objects/Player/pac gif R.gif", 770, 375, 30));
 
@@ -33,25 +35,29 @@ namespace PacWoman.GameServices
 
         private void CreateCoins()
         {
-            //שורות אנכיות של מטבעות |||||||||||||||
+            //שורות אנכיות של מטבעות |||||||||||||||\
             for (int i = 90; i <= 500; i += 50)
             {
                 _scene.AddObject(new Coin("Objects/rewards/coin.png", 40, i, 6));
+                TotalCoins++;
             }
 
             for (int i = 80; i <= 500; i += 47)
             {
                 _scene.AddObject(new Coin("Objects/rewards/coin.png", 310, i, 6));
+                TotalCoins++;
             }
 
             for (int i = 80; i <= 480; i += 47)
             {
                 _scene.AddObject(new Coin("Objects/rewards/coin.png", 890, i, 6));
+                TotalCoins++;
             }
 
             for (int i = 40; i <= 500; i += 50)
             {
                 _scene.AddObject(new Coin("Objects/rewards/coin.png", 1170, i, 6));
+                TotalCoins++;
             }
 
 
@@ -60,22 +66,26 @@ namespace PacWoman.GameServices
             for (int i = 40; i <= 1160; i += 50)
             {
                 _scene.AddObject(new Coin("Objects/rewards/coin.png", i, 40, 6));
+                TotalCoins++;
             }
 
 
             for (int i = 72; i <= 280; i += 47)
             {
                 _scene.AddObject(new Coin("Objects/rewards/coin.png ", i, 215, 6));
+                TotalCoins++;
             }
 
             for (int i = 72; i <= 280; i += 47)
             {
                 _scene.AddObject(new Coin("Objects/rewards/coin.png", i, 300, 6));
+                TotalCoins++;
             }
 
             for (int i = 85; i <= 1160; i += 50)
             {
                 _scene.AddObject(new Coin("Objects/rewards/coin.png", i, 490, 6));
+                TotalCoins++;
             }
 
 
@@ -84,25 +94,29 @@ namespace PacWoman.GameServices
             for (int i = 940; i <= 1165; i += 47)
             {
                 _scene.AddObject(new Coin("Objects/rewards/coin.png ", i, 215, 6));
+                TotalCoins++;
             }
 
             for (int i = 940; i <= 1165; i += 47)
             {
                 _scene.AddObject(new Coin("Objects/rewards/coin.png", i, 300, 6));
+                TotalCoins++;
             }
 
 
             for (int i = 370; i <= 840; i += 50)//-------------- באמצע
             {
                 _scene.AddObject(new Coin("Objects/rewards/coin.png", i, 155, 6));
+                TotalCoins++;
             }
 
             for (int i = 370; i <= 700; i += 50)
             {
                 _scene.AddObject(new Coin("Objects/rewards/coin.png", i, 388, 6));
+                TotalCoins++;
             }
             _scene.AddObject(new Coin("Objects/rewards/coin.png", 770, 388, 6));
-
+            TotalCoins++;
 
         }
 
@@ -205,10 +219,6 @@ namespace PacWoman.GameServices
 
 
 
-
-
-
-
             //verticalsssss  |||||
 
             for (int j = 0; j <= 338; j += 105)
@@ -305,20 +315,5 @@ namespace PacWoman.GameServices
                 _scene.AddObject(new Ghost(_scene, GhostColor.blue, 510, 270, 35));
             }
         }
-
-
-
-
-
-
-
-
-
-
-
     }
 }
-    
-
-
-    

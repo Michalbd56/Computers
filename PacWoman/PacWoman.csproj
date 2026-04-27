@@ -158,7 +158,6 @@
   <ItemGroup>
     <Content Include="Assets\Backgrounds\SpaceStarsHomepage.jpeg" />
     <Content Include="Assets\Backgrounds\StarsHomePage.jpg" />
-    <Content Include="Assets\Backgrounds\tempmap.png" />
     <Content Include="Assets\icon\LargeTile.scale-100.png" />
     <Content Include="Assets\icon\LargeTile.scale-125.png" />
     <Content Include="Assets\icon\LargeTile.scale-150.png" />
