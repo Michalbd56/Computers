@@ -13,8 +13,6 @@ using Windows.UI.Xaml.Controls;
 
 namespace PacWoman.Pages
 {
-
-
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -31,27 +29,33 @@ namespace PacWoman.Pages
         private MediaPlayer musicPlayer;
         private bool isPlaying = false;
 
-
-
         private void shopicon_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Shop));
-
         }
 
-        private void homeicon_Click(object sender, RoutedEventArgs e)
+        private async void homeicon_Click(object sender, RoutedEventArgs e)
         { 
-            // להקפיא את המשחק ואז לקפוץ הודעה
-            // להקפיץ הודעה של האם השחקן בטוח שהוא רוצה לצאת ואם כן אז : ואם לא לסגור חלון
+            ContentDialog sureexitgame = new ContentDialog()
+            {
+                Title = "אתה בטוח שאתה רוצה לצאת?",
+                PrimaryButtonText = "כן",
+                CloseButtonText = "לא"
+            };
+
+            ContentDialogResult result = await sureexitgame.ShowAsync();
+            if( result== ContentDialogResult.Primary)
+            {
+                Frame.Navigate(typeof(HomePage));
+            }
+           
             Server.SaveGameData(GameManager.Gameuser);
-            Frame.Navigate(typeof(HomePage));
 
         }
 
         private void settingicon_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(GamePage));
-
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -59,7 +63,60 @@ namespace PacWoman.Pages
             _gamemanager = new GameManager(scene, _selectedLevel);
             Manager.Events.OnUpdateScore += ShowCollectedCoins;
             GameManager.Events.OnRemoveLifes += RemoveLifes;
+            GameManager.GameEvents.OnLevelComplete += OnLevelComplete;
         }
+
+        protected override void OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (e.Parameter != null)
+            {
+                _selectedLevel = (int)e.Parameter;
+            }
+        }
+
+        // ── Win ────────────────────────────────────────────────────────────────
+
+        private async void OnLevelComplete()
+        {
+            // RunAsync only accepts Action (not async lambda), so we fire a Task from inside
+            await Dispatcher.RunAsync(
+                Windows.UI.Core.CoreDispatcherPriority.Normal,
+                () => { _ = ShowLevelCompleteDialog(); });
+        }
+
+        private async Task ShowLevelCompleteDialog()
+        {
+            int nextLevel = _selectedLevel + 1;
+            bool hasNextLevel = nextLevel <= GameManager.Gameuser.MaxLevel;
+
+            ContentDialog dialog = new ContentDialog
+            {
+                Title = "כל הכבוד!",
+                Content = hasNextLevel
+                    ? $"סיימת את שלב {_selectedLevel}! מעבר לשלב {nextLevel}."
+                    : "סיימת את כל השלבים! אתה המנצח!",
+                PrimaryButtonText = hasNextLevel ? $"שלב {nextLevel}" : "חזרה לתפריט",
+                CloseButtonText = "תפריט ראשי"
+            };
+
+            var result = await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary && hasNextLevel)
+            {
+                GameManager.Gameuser.Level.LevelId = nextLevel;
+                GameManager.Gameuser.Level.CountGhosts = nextLevel + 1;
+                GameManager.Gameuser.Level.GhostsSpeed += 1;
+                Frame.Navigate(typeof(GamePage), nextLevel);
+            }
+            else
+            {
+                Frame.Navigate(typeof(HomePage));
+            }
+        }
+
+        // ── Lose ───────────────────────────────────────────────────────────────
 
         private void RestartGame_Click(object sender, RoutedEventArgs e)
         {
@@ -73,23 +130,7 @@ namespace PacWoman.Pages
 
             // TODO: reset your game state
         }
-        //private void RemoveLifes(int hearts)
-        //{
-        //    if(hearts==2)
-        //    {
-        //        Heart3.Visibility=Visibility.Collapsed;
-        //    }
-        //    if (hearts == 1) 
-        //    {
-        //        Heart2.Visibility=Visibility.Collapsed;
-        //    }
-        //    if (hearts == 0)
-        //    {
-        //        Heart1.Visibility=Visibility.Collapsed;
-        //        GameOverOverlay.Visibility = Visibility.Visible;
 
-        //    }
-        //}
         private async void RemoveLifes(int hearts)
         {
             await Dispatcher.RunAsync(
@@ -113,16 +154,6 @@ namespace PacWoman.Pages
                 });
         }
 
-        protected override void OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            if (e.Parameter != null)
-            {
-                _selectedLevel = (int)e.Parameter;
-            }
-        }
-
         private async Task ShowGameOverDialog()
         {
             ContentDialog dialog = new ContentDialog
@@ -141,6 +172,7 @@ namespace PacWoman.Pages
             }
         }
 
+        // ── Score display ──────────────────────────────────────────────────────
 
         private async void ShowCollectedCoins(int coins)
         {
@@ -152,7 +184,7 @@ namespace PacWoman.Pages
                     });
         }
 
-
+        // ── Music ──────────────────────────────────────────────────────────────
 
         private void musicicon_Click(object sender, RoutedEventArgs e)
         {

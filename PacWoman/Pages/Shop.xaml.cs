@@ -70,5 +70,7 @@ namespace PacWoman.Pages
             CollectedCoins.Text = GameManager.Gameuser.CollectedCoins.ToString();
 
         }
+
+
     }
 }

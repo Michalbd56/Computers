@@ -151,7 +151,7 @@ namespace DateBaseProject
 
         public static void SaveGameData(GameUser gameuser)
         {
-            string query = $"UPDATE GameData SET CollectedCoins = {gameuser.CollectedCoins} , MaxLevel = {gameuser.MaxLevel} , CurrentCharacter = '{ gameuser.CurrentCharacter}'";
+            string query = $"UPDATE GameData SET CollectedCoins = {gameuser.CollectedCoins} , MaxLevel = {gameuser.MaxLevel} , CurrentCharacter = '{ gameuser.CurrentCharacter}' WHERE UserId={gameuser.Id}";
             Execute(query);
         }
     }
