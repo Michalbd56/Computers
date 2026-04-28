@@ -29,28 +29,54 @@ namespace PacWoman.Pages
         private MediaPlayer musicPlayer;
         private bool isPlaying = false;
 
+        // ── Pause / Resume ─────────────────────────────────────────────────────
+
+        private Action _savedOnRun;
+
+        private void PauseGame()
+        {
+            // Save the current run delegate and clear it — the timer Tick will do nothing
+            _savedOnRun = Manager.Events.OnRun;
+            Manager.Events.OnRun = null;
+        }
+
+        private void ResumeGame()
+        {
+            // Restore the run delegate so the game loop continues
+            Manager.Events.OnRun = _savedOnRun;
+        }
+
+        // ── Navigation ─────────────────────────────────────────────────────────
+
         private void shopicon_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Shop));
         }
 
         private async void homeicon_Click(object sender, RoutedEventArgs e)
-        { 
-            ContentDialog sureexitgame = new ContentDialog()
+        {
+            PauseGame();
+
+            ContentDialog dialog = new ContentDialog
             {
-                Title = "אתה בטוח שאתה רוצה לצאת?",
-                PrimaryButtonText = "כן",
-                CloseButtonText = "לא"
+                Title = "יציאה מהמשחק",
+                Content = "האם אתה בטוח שאתה רוצה לצאת? ההתקדמות בשלב תאבד.",
+                PrimaryButtonText = "כן, צא",
+                CloseButtonText = "המשך לשחק"
             };
 
-            ContentDialogResult result = await sureexitgame.ShowAsync();
-            if( result== ContentDialogResult.Primary)
+            var result = await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
             {
+                Server.SaveGameData(GameManager.Gameuser);
                 Frame.Navigate(typeof(HomePage));
             }
-           
-            Server.SaveGameData(GameManager.Gameuser);
-
+            else
+            {
+                // Player chose to stay — resume exactly where they left off
+                ResumeGame();
+            }
         }
 
         private void settingicon_Click(object sender, RoutedEventArgs e)
@@ -64,17 +90,12 @@ namespace PacWoman.Pages
             Manager.Events.OnUpdateScore += ShowCollectedCoins;
             GameManager.Events.OnRemoveLifes += RemoveLifes;
             GameManager.GameEvents.OnLevelComplete += OnLevelComplete;
+
+            // Show carried-over score immediately when the page loads
+            txtCoins.Text = GameManager.Gameuser.CollectedCoins.ToString();
         }
 
-        protected override void OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            if (e.Parameter != null)
-            {
-                _selectedLevel = (int)e.Parameter;
-            }
-        }
+       
 
         // ── Win ────────────────────────────────────────────────────────────────
 
@@ -88,15 +109,18 @@ namespace PacWoman.Pages
 
         private async Task ShowLevelCompleteDialog()
         {
+            PauseGame();
+
             int nextLevel = _selectedLevel + 1;
             bool hasNextLevel = nextLevel <= GameManager.Gameuser.MaxLevel;
+            int totalScore = GameManager.Gameuser.CollectedCoins;
 
             ContentDialog dialog = new ContentDialog
             {
                 Title = "כל הכבוד!",
                 Content = hasNextLevel
-                    ? $"סיימת את שלב {_selectedLevel}! מעבר לשלב {nextLevel}."
-                    : "סיימת את כל השלבים! אתה המנצח!",
+                    ? $"סיימת את שלב {_selectedLevel}! ניקוד: {totalScore}\nמעבר לשלב {nextLevel}."
+                    : $"סיימת את כל השלבים! ניקוד סופי: {totalScore}",
                 PrimaryButtonText = hasNextLevel ? $"שלב {nextLevel}" : "חזרה לתפריט",
                 CloseButtonText = "תפריט ראשי"
             };
@@ -112,6 +136,7 @@ namespace PacWoman.Pages
             }
             else
             {
+                Server.SaveGameData(GameManager.Gameuser);
                 Frame.Navigate(typeof(HomePage));
             }
         }
@@ -156,6 +181,8 @@ namespace PacWoman.Pages
 
         private async Task ShowGameOverDialog()
         {
+            PauseGame();
+
             ContentDialog dialog = new ContentDialog
             {
                 Title = "המשחק נגמר",

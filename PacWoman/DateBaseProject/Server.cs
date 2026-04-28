@@ -13,23 +13,31 @@ namespace DateBaseProject
     // המחלקה מאגדת פעולות המטפלות במסד נתונים: כותבות אליו, קוראות ממנו 
     public static class Server
     {
-        private static string dbPath = ApplicationData.Current.LocalFolder.Path; // נתיב מסד הנתונים במחשב
-        private static string connectionString = "Filename=" + dbPath + "\\PacWomanDataBase.db"; //מתחבר למסד הנתונים
+        private static string dbPath = ApplicationData.Current.LocalFolder.Path;
+        private static string connectionString = "Filename=" + dbPath + "\\PacWomanDataBase.db";
+
+        // Single shared connection — opened once, reused everywhere.
+        // This prevents "database is locked" errors from multiple concurrent connections.
+        private static SqliteConnection _connection;
+
+        private static SqliteConnection GetConnection()
+        {
+            if (_connection == null)
+            {
+                _connection = new SqliteConnection(connectionString);
+                _connection.Open();
+            }
+            return _connection;
+        }
 
         public static GameUser AddNewUser(string userName, string userPassword, string userEmail)
         {
             string query = $"INSERT INTO [Users] (UserName,UserPassword,UserEmail) VALUES ('{userName}','{userPassword}','{userEmail}')";
             Execute(query);
-            //שניתן למשתמש החדש Id כעת עלימו לברר מהו ה 
-            int? userId = ValidateUser(userName, userPassword); 
-            //User של המשתמש לאחר הוספתו לטבלת UserId קבלת 
-                                                                
-            //-------------------------------------------
-            AddGameData(userId.Value); //הוספת נתוני ברירת מחדל לטבלאת gamedate  
+            int? userId = ValidateUser(userName, userPassword);
+            AddGameData(userId.Value);
             AddUserSkin(userId.Value);
             return GetUser(userId.Value);
-
-
         }
 
         private static void AddUserSkin(int userId)
@@ -40,12 +48,12 @@ namespace DateBaseProject
 
         public static void AddUserSkin(int userId, string name)
         {
-            string query = $"INSERT INTO [UserSkin] (UserId,Skin) VALUES ({userId},'{"Yellow"}')";
+            string query = $"INSERT INTO [UserSkin] (UserId,Skin) VALUES ({userId},'{name}')";
             Execute(query);
         }
 
         private static void AddGameData(int userId)
-        {  
+        {
             string query = $"INSERT INTO [GameData] (UserId,CollectedCoins,MaxLevel,CurrentCharacter) VALUES ({userId},{0},{1},'{"Yellow"}')";
             Execute(query);
         }
@@ -54,108 +62,95 @@ namespace DateBaseProject
         {
             GameUser user = null;
             string query = $"SELECT UserId,UserName FROM [Users] WHERE UserId={userId}";
-            using (SqliteConnection connection = new SqliteConnection(connectionString))
+
+            var connection = GetConnection();
+            SqliteCommand command = new SqliteCommand(query, connection);
+            SqliteDataReader reader = command.ExecuteReader();
+            if (reader.HasRows)
             {
-                connection.Open();
-                SqliteCommand command = new SqliteCommand(query, connection);
-                SqliteDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
+                reader.Read();
+                user = new GameUser
                 {
-                    reader.Read();
-                    user = new GameUser
-                    {
-                        Id = reader.GetInt32(0),
-                        UserName = reader.GetString(1),
-                    };
-                }
+                    Id = reader.GetInt32(0),
+                    UserName = reader.GetString(1),
+                };
             }
-            // הם נתוני המשחק gameData כעת נקרא את הנתונים מהטבלה 
+            reader.Close();
+
             if (user != null)
             {
-                SetUser(user);// המשך מילוי משתמש
+                SetUser(user);
             }
             return user;
         }
 
         private static void SetUser(GameUser user)
         {
-            string query = $"SELECT CollectedCoins,MaxLevel,CurrentCharacter FROM [GameData] WHERE {user.Id}=UserId ";
-            using (SqliteConnection connection = new SqliteConnection(connectionString))
-            {
-                connection.Open();
-                SqliteCommand command = new SqliteCommand(query, connection);
-                SqliteDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    reader.Read();
-                    user.CollectedCoins = reader.GetInt32(0);
-                    user.MaxLevel = reader.GetInt32(0); 
-                    user.CurrentCharacter = reader.GetString (2);
+            string query = $"SELECT CollectedCoins,MaxLevel,CurrentCharacter FROM [GameData] WHERE {user.Id}=UserId";
 
-                }
+            var connection = GetConnection();
+            SqliteCommand command = new SqliteCommand(query, connection);
+            SqliteDataReader reader = command.ExecuteReader();
+            if (reader.HasRows)
+            {
+                reader.Read();
+                user.CollectedCoins = reader.GetInt32(0);
+                user.MaxLevel = reader.GetInt32(1);
+                user.CurrentCharacter = reader.GetString(2);
             }
+            reader.Close();
         }
 
         public static int? ValidateUser(string userName, string userPassword)
         {
-            //הפעולה בודקת אם המשתמש הזין נתונים נכונים ונמצא במאגר משתמשים
-            //של המשתמש UserId אם הכל תקין, הפעולה מחזירה את
-            //null אם הנתונים אינם תקינים הפעולה מחזירה ערך
-            //The SELECT statement is used to select data from a database
             string query = $"SELECT UserId FROM [Users] WHERE UserName='{userName}' AND UserPassword='{userPassword}'";
-            using (SqliteConnection connection = new SqliteConnection(connectionString))
-            {
 
-                connection.Open();
-                SqliteCommand command = new SqliteCommand(query, connection);
-                SqliteDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    reader.Read();
-                    return reader.GetInt32(0);
-                }
-                return null;
+            var connection = GetConnection();
+            SqliteCommand command = new SqliteCommand(query, connection);
+            SqliteDataReader reader = command.ExecuteReader();
+            if (reader.HasRows)
+            {
+                reader.Read();
+                int id = reader.GetInt32(0);
+                reader.Close();
+                return id;
             }
+            reader.Close();
+            return null;
         }
 
         private static void Execute(string query)
         {
-            using (SqliteConnection connection = new SqliteConnection(connectionString))
-            {
-                connection.Open();
-                SqliteCommand command = new SqliteCommand(query, connection);
-                command.ExecuteNonQuery();
-            }
+            var connection = GetConnection();
+            SqliteCommand command = new SqliteCommand(query, connection);
+            command.ExecuteNonQuery();
         }
 
         public static List<string> GetMyCharacters(int id)
         {
             List<string> nameCharacters = new List<string>();
             string query = $"SELECT Skin FROM [UserSkin] WHERE UserId={id}";
-            using (SqliteConnection connection = new SqliteConnection(connectionString)) 
+
+            var connection = GetConnection();
+            SqliteCommand command = new SqliteCommand(query, connection);
+            SqliteDataReader reader = command.ExecuteReader();
+            if (reader.HasRows)
             {
-                connection.Open(); 
-                SqliteCommand command = new SqliteCommand( query, connection);
-                SqliteDataReader reader = command.ExecuteReader();
-                if(reader.HasRows)
+                while (reader.Read())
                 {
-                    while (reader.Read())
-                    {
-                        nameCharacters.Add(reader.GetString(0));   
-                    }
-                       return nameCharacters; 
+                    nameCharacters.Add(reader.GetString(0));
                 }
+                reader.Close();
+                return nameCharacters;
             }
+            reader.Close();
             return null;
         }
 
         public static void SaveGameData(GameUser gameuser)
         {
-            string query = $"UPDATE GameData SET CollectedCoins = {gameuser.CollectedCoins} , MaxLevel = {gameuser.MaxLevel} , CurrentCharacter = '{ gameuser.CurrentCharacter}' WHERE UserId={gameuser.Id}";
+            string query = $"UPDATE GameData SET CollectedCoins = {gameuser.CollectedCoins}, MaxLevel = {gameuser.MaxLevel}, CurrentCharacter = '{gameuser.CurrentCharacter}' WHERE UserId={gameuser.Id}";
             Execute(query);
         }
     }
 }
-    
-
-

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PacWoman.GameServices;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -30,15 +31,31 @@ namespace PacWoman.Pages
 
             if (result == ContentDialogResult.Primary)
             {
-                Frame.Navigate(typeof(GamePage), 1);
+                GameManager.Gameuser.Level = new Modles.GameLevel
+                {
+                    LevelId = 1, CountGhosts=2 , GhostsSpeed = 3
+                };
+                Frame.Navigate(typeof(GamePage));
             }
             else if (result == ContentDialogResult.Secondary)
             {
-                Frame.Navigate(typeof(GamePage), 2);
+                GameManager.Gameuser.Level = new Modles.GameLevel
+                {
+                    LevelId = 2,
+                    CountGhosts = 3,
+                    GhostsSpeed = 3
+                };
+                Frame.Navigate(typeof(GamePage));
             }
             else
             {
-                Frame.Navigate(typeof(GamePage), 3);
+                GameManager.Gameuser.Level = new Modles.GameLevel
+                {
+                    LevelId = 3,
+                    CountGhosts = 4,
+                    GhostsSpeed = 4
+                };
+                Frame.Navigate(typeof(GamePage));
             }
 
         }
